@@ -1,0 +1,69 @@
+<!-- navbar gopermis -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid bg-light fixed-top">
+    <a class="navbar-brand" href="#"><img src="/assets/images/voiture-blanche-31216422.jpg" alt="" width="40"
+        height="30" class="d-inline-block align-text-top"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+        <!-- liens centraux -->
+      </ul>
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="/pageIdAuto">Auto</a>
+        </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="#">Moto</a>
+        </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="#">ma page</a>
+        </li>
+        <li class="nav-item mx-2">
+          <a class="nav-link" href="/admin">admin</a>
+        </li>
+      </ul>
+      <!-- boutons de droite -->
+      <form class="d-flex" role="search">
+        <a href="/inscription" class="btn btn-outline-secondary mx-1">Inscription</a>
+        {{!-- <button class="btn btn-outline-secondary mx-1">Inscription</button> --}}
+        <!-- Button trigger modal -->
+        <a href="/inscription"type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Connexion
+        </a>
+        {{!-- </button> --}}
+      </form>
+    </div>
+  </div>
+
+</nav>
+<!-- fin de  navbar gopermis-->
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Connexion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body col-8">
+          <label for="exampleFormControlInput1" class="form-label">Identifiant</label>
+          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="identifiant">
+          <label for="exampleFormControlInput1" class="form-label">mot de passe</label>
+          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="mot de passe">
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">Mot de passe perdu</button>
+          <button type="button" class="btn btn-success">Entrer</button>
+        </div>
+      </div>
+    </div>
+  </div>

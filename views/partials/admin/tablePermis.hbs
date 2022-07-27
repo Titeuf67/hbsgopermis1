@@ -1,0 +1,74 @@
+<div class="container">
+    <div class="row">
+        <!-- Krashtest tableau -->
+
+        <h2>Gestion permis</h2>
+
+        <table class="table table-dark table-striped mt-5">
+            <!-- Header -->
+            <thead>
+
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">actions</th>
+                </tr>
+
+            </thead>
+
+            <!-- Body du tableau users -->
+            <tbody>
+                {{#each dbPermis }}
+                <tr>
+                    <th scope="row">{{ inc @index }}</th>
+                    <td>{{ this.name }}</td>
+                    <td>{{ this.description }}</td>
+
+                    <td>
+                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                            data-bs-target="#modalPermis-{{this.id}}">{{ this.name }} n°{{this.neth}}</button>
+
+                    </td>
+                </tr>
+
+                <!-- Modal -->
+                <div class="modal fade" id="modalPermis-{{this.id}}" tabindex="-1" aria-labelledby="modalPermis-Label"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="modalPermis-Label">{{this.name}}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/permis/{{this.id}}?_method=PUT" method="post">
+                                    <div class="col">
+                                        <label for="name">Name</label>
+                                        <input type="text" id="name" name="name" value="{{ this.name }}">
+                                    </div>
+                                    <div class="col">
+                                        <label for="description">Description</label>
+                                        <input type="text" id="description" name="description"
+                                            value="{{ this.description }}">
+                                    </div>
+                                    <button type="submit">Editer</button>
+                                </form>
+                                <form action="/permis/{{this.id}}?_method=DELETE" method="post">
+                                    <button type="submit">Supprimer</button>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{/each }}
+            </tbody>
+        </table>
+    </div>
+</div>

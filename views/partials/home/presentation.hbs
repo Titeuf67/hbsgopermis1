@@ -1,0 +1,184 @@
+<!-- section presentation -->
+<section class="container justify-content-center align-items-center mt-5">
+  <div class=" border border-solid p-3 mb-3 shadow-lg">
+    <div class="row g-0">
+      <div class="row">
+        <h5 class="">Bienvenue sur GoPermis</h5>
+        <p>
+          content. This content is a little bit longer.This is a wider card with supporting text below as a natural
+          lead-in to additional
+          content. This content is a little bit longer.This is a wider card with supporting text below as a natural
+          lead-in to additional
+          content. This content is a little bit longer.This is a wider card with supporting text below as a natural
+          lead-in to additional
+          content. This content is a little bit longer.This is a wider card with supporting text below as a natural
+          lead-in to additional
+          content. This content is a little bit longer.This is a wider card with supporting text below as a natural
+          lead-in to additional
+          content. This content is a little bit longer.This is a wider card with supporting text below as a natural
+          lead-in to additional
+          content. This content is a little bit longer.This is a wider card with supporting text below as a natural
+          lead-in to additional
+          content. This content is a little bit longer.</p>
+        <div class="row">
+          <div class="row col-md-6">
+            <h6 class="text-center">Les horaires du bureau.</h6>
+            <div class="d-flex my-3">
+              <ul class="col-md-6 ms-4">
+                <li>lundi</li>
+                <li>mardi</li>
+                <li>mercredi</li>
+                <li>jeudi</li>
+                <li>vendredi</li>
+                <li>samedi</li>
+                <li>dimanche</li>
+              </ul>
+              <ul class="col-md-6 list-unstyled">
+                <li>9h00-19h00</li>
+                <li>9h00-19h00</li>
+                <li>9h00-19h00</li>
+                <li>9h00-19h00</li>
+                <li>9h00-19h00</li>
+                <li>9h00-19h00</li>
+                <li>ferié</li>
+              </ul>
+            </div>
+          </div>
+          <div class="row col-md-6">
+            <h6 class="text-center">Les horaires de la conduite.</h6>
+            <div class="d-flex my-3">
+              <ul class="col-md-6 ms-4">
+                <li>lundi</li>
+                <li>mardi</li>
+                <li>mercredi</li>
+                <li>jeudi</li>
+                <li>vendredi</li>
+                <li>samedi</li>
+                <li>dimanche</li>
+              </ul>
+              <ul class="col-md-6 list-unstyled">
+                <li>9h00-19h00</li>
+                <li>9h00-19h00</li>
+                <li>9h00-19h00</li>
+                <li>9h00-19h00</li>
+                <li>9h00-19h00</li>
+                <li>9h00-19h00</li>
+                <li>ferié</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p>This content is a little bit longer.This is a wider card with supporting text below as a natural
+          lead-in to additional
+          content. This content is a little bit longer.This is a wider card with supporting text below as a natural
+          lead-in to additional
+          content. This content is a little bit longer.This is a wider card with supporting text below as a natural
+          lead-in to additional
+          content. This content is a little bit longer.</p>
+        <!-- Button trigger modal 2-->
+        <div class=" d-flex justify-content-center ">
+          <button type="button" class="btn btn-outline-secondary shadow-lg" data-bs-toggle="modal"
+            data-bs-target="#modal2">
+            Pour en savoir plus sur nos services
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- modal avec section carousel -->
+<div class="container justify-content-center align-items-center">
+  <div class="col-lg-8">
+    <div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog  modal-dialog-centered modal-xl">
+        <div class="modal-content">
+
+          <!-- <div class="modal-body"> -->
+          <!-- section carousel avec list de cards-->
+          <div id="carouselExampleCaptions" class="carousel slide " data-bs-ride="false">
+            <div class="carousel-inner">
+
+              {{#each dbPermis }}
+              <div class="card carousel-item active">
+                <div class="row">
+                  <div class="col-lg-8 ">
+                    <img src="/assets/images/auto.jpg" alt="" class="img-fluid" srcset="">
+                  </div>
+                  <div class="col-lg-4 row p-2">
+                    <h6 class="text-center mt-5"> {{ this.name }} </h6>
+                    <p class="mx-3"> {{ this.description }}</p>
+                    <div class="d-flex justify-content-center align-items-center mb-2">
+                      <a class="btn btn-outline-secondary" href="/permis/{{this.id}}" type="submit">Go</a>
+                      <button class="btn btn-outline-secondary" type="submit">Inscription sur le site</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {{/each }}
+
+              {{!-- <div class="card carousel-item">
+                <div class="row">
+                  <div class="col-lg-8">
+                    <img src="/assets/images/moto1.jpg" alt="" class="img-fluid" srcset="">
+                  </div>
+                  <div class="col-lg-4 row p-2">
+                    <h6 class="text-center mt-5">Le Permis moto (Permis A)</h6>
+                    <p class="mx-3">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et in inventore
+                      ab
+                      necessitatibus.
+                      Eligendi, quis, in veritatis ratione tempore quod aperiam iusto pariatur amet architecto
+                      voluptate
+                      quo, fuga corrupti non.
+                    </p>
+                    <div class="d-flex justify-content-center align-items-center mb-2">
+                      <button class="btn btn-outline-secondary" type="submit">Inscription sur le site</button>
+                    </div>
+                  </div>
+                </div>
+              </div> --}}
+
+              {{!-- <div class="card carousel-item">
+                <div class="row">
+                  <div class="col-lg-8">
+                    <img src="/assets/images/vespa.jpg" alt="" class="img-fluid" srcset="">
+                  </div>
+                  <div class="col-lg-4 mt-5 row">
+                    <h6 class="text-center mt-5">Permis Scooter (Permis AM)</h6>
+                    <p class="mx-3" s>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Et in inventore
+                      ab
+                      necessitatibus.
+                      Eligendi, quis, in veritatis ratione tempore quod aperiam iusto pariatur amet architecto
+                      voluptate
+                      quo, fuga corrupti non.
+                    </p>
+                    <div class="d-flex justify-content-center align-items-center mb-2">
+                      <button class="btn btn-outline-secondary " type="submit">Inscription sur le site</button>
+                    </div>
+
+                  </div>
+                </div>
+              </div> --}}
+
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!-- fin de section carousel -->
+      </div>
+    </div>
+  </div>
+</div>
