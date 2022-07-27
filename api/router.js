@@ -72,6 +72,10 @@ router.get('/inscription', function (req, res) {
     res.render('inscription')
 })
 
+router.get('/forminscription', function (req, res) {
+    res.render('forminscription')
+})
+
 router.get('/pageIdAuto', function (req, res) {
     res.render('pageIdAuto')
 })

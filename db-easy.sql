@@ -57,3 +57,4 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
 INSERT INTO permis (name, description) VALUES ("Permis B", "Ma super descreiption");
+INSERT INTO permis (name, description) VALUES ("Permis c", "Ma super description");
