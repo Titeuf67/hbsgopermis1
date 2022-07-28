@@ -27,31 +27,51 @@ router.get('/', async (req, res) => {
 
 })
 
-router.get('/permis/:id', async (req, res) => {
-    const { id } = req.params
-    const data = await db.query(`SELECT * FROM permis WHERE id = ${id}`)
+router
 
-    if (data.length > 0) {
-        res.render('pageIdAuto', {
-            permis: data[0]
-        })
+    // pour les permis
+    .get('/permis', async (req, res) => {
+        const { id } = req.params
+        const data = await db.query(`SELECT * FROM permis WHERE id = ${id}`)
 
-    } else {
-        res.redirect('/')
+        if (data.length > 0) {
+            res.render('pageIdAuto', {
+                permis: data[0]
+            })
 
-    }
+        } else {
+            res.redirect('/')
 
-})
-    .post('/permis', async (req, res) => {
-        const { name, description } = req.body;
-
-        if (name & description) {
-            await db.query(`INSERT INTO permis (name, description) VALUES ("${name}", "${description}")`)
-            res.redirect('/admin')
-
-        } else res.send('Error')
+        }
 
     })
+    .post('/permis', (req, res) => {
+        console.log('POST::permis', req.body)
+        const { name, description } = req.body;
+
+        db.query(`
+    INSERT INTO permis (name, description)
+        VALUES ("${name}", "${description}")
+    `, (err, data) => {
+            db.query(`SELECT * from permis WHERE id = ${data.insertId}`, (err, obj) => {
+                db.query('SELECT * FROM permis', (err, arr) => {
+                    // res.json({ ...req.body, data, obj, arr })
+                    res.redirect('/admin')
+                })
+            })
+
+        })
+    })
+    // .post('/permis', async (req, res) => {
+    //     const { name, description } = req.body;
+
+    //     if (name & description) {
+    //         await db.query(`INSERT INTO permis (name, description) VALUES ('${name}', '${description}')`)
+    //         res.redirect('/admin')
+
+    //     } else res.send('Error')
+
+    // })
     .put('/permis/:id', async (req, res) => {
         const { name, description } = req.body;
         const { id } = req.params;
@@ -59,7 +79,8 @@ router.get('/permis/:id', async (req, res) => {
         if (name) await db.query(`UPDATE permis set name = "${name}" WHERE id = ${id};`)
         if (description) await db.query(`UPDATE permis set description = "${description}" WHERE id = ${id};`)
 
-        res.redirect('/admin')
+        const dbPermis = await db.query(`SELECT * FROM permis`)
+
     })
     .delete('/permis/:id', async (req, res) => {
         const { id } = req.params;
@@ -75,6 +96,16 @@ router.get('/inscription', function (req, res) {
 router.get('/forminscription', function (req, res) {
     res.render('forminscription')
 })
+    .post('/forminscription', function (req, res) {
+        console.log("forminscription", req.body)
+        res.render('forminscription')
+    })
+
+router
+    .post('/login', function (req, res) {
+        console.log("login", req.body)
+        res.render('forminscription')
+    })
 
 router.get('/pageIdAuto', function (req, res) {
     res.render('pageIdAuto')
@@ -82,6 +113,7 @@ router.get('/pageIdAuto', function (req, res) {
 
 router.get('/admin', async (req, res) => {
     const dbPermis = await db.query(`SELECT * FROM permis`)
+    // const dbUsers = await db.query(`SELECT * FROM user`)
 
     if (dbPermis.length > 0) {
         res.render("admin", {
@@ -90,6 +122,7 @@ router.get('/admin', async (req, res) => {
             dbPermis,
             users: fkdb.users,
             articles: fkdb.articles
+            // dbUsers
         });
     } else {
         res.redirect('/')
