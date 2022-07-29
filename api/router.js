@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
 
 router
 
-    // pour les permis
+    // crud table permis
     .get('/permis', async (req, res) => {
         const { id } = req.params
         const data = await db.query(`SELECT * FROM permis WHERE id = ${id}`)
@@ -38,12 +38,9 @@ router
             res.render('pageIdAuto', {
                 permis: data[0]
             })
-
         } else {
             res.redirect('/')
-
         }
-
     })
     .post('/permis', (req, res) => {
         console.log('POST::permis', req.body)
@@ -72,6 +69,7 @@ router
     //     } else res.send('Error')
 
     // })
+
     .put('/permis/:id', async (req, res) => {
         const { name, description } = req.body;
         const { id } = req.params;
@@ -79,8 +77,7 @@ router
         if (name) await db.query(`UPDATE permis set name = "${name}" WHERE id = ${id};`)
         if (description) await db.query(`UPDATE permis set description = "${description}" WHERE id = ${id};`)
 
-        const dbPermis = await db.query(`SELECT * FROM permis`)
-
+        res.redirect('/admin')
     })
     .delete('/permis/:id', async (req, res) => {
         const { id } = req.params;
@@ -88,6 +85,26 @@ router
         await db.query(`DELETE from permis WHERE id = ${id}`)
         res.redirect('/admin')
     })
+router.get('/permis/:id',async (req, res) =>{
+    const { id } = req.params;
+    const dbPermis = await db.query(`SELECT * FROM permis WHERE id=${id}`)
+    // console.log(dbPermis);
+    res.render('pageIdAuto',{
+        dbPermis
+    })
+})
+// fin des router table permis
+
+// router crud table users
+
+
+
+
+
+
+
+
+
 
 router.get('/inscription', function (req, res) {
     res.render('inscription')
@@ -113,16 +130,15 @@ router.get('/pageIdAuto', function (req, res) {
 
 router.get('/admin', async (req, res) => {
     const dbPermis = await db.query(`SELECT * FROM permis`)
-    // const dbUsers = await db.query(`SELECT * FROM user`)
+    const dbUsers = await db.query(`SELECT * FROM user`)
 
     if (dbPermis.length > 0) {
         res.render("admin", {
             // Quand nous utilisons un layout qui n'est pas celui par default nous devons le spécifié
             layout: "adminLayout",
             dbPermis,
-            users: fkdb.users,
-            articles: fkdb.articles
-            // dbUsers
+            dbUsers,
+
         });
     } else {
         res.redirect('/')

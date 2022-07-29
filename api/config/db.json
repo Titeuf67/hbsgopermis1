@@ -1,7 +1,7 @@
 {
     "users": [
-        {"id": 0, "name": "solo","prenom": "bruno", "mail": "bru@no.fr","telephone":"0605060505","neth": "14562"},
-        {"id": 1, "name": "marley","prenom": "bob", "mail": "bru2@no.fr","telephone":"1245709878","neth": "18952"}
+        {"id": 0, "name": "solo","prenom": "bruno", "email": "bru@no.fr","telephone":"0605060505","neth": "14562"},
+        {"id": 1, "name": "marley","prenom": "bob", "email": "bru2@no.fr","telephone":"1245709878","neth": "18952"}
     ],
     "articles": [
         {"id": 0, "photo": "bruno", "art1": "art10", "art2": "art20", "art3": "art30", "art4": "art40"},

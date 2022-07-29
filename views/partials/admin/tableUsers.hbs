@@ -1,98 +1,144 @@
 <div class="container">
     <div class="row">
-        <!-- Krashtest tableau -->
+        <h2>Gestion des utilisateurs</h2>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#admincreate2">
+            creation d'utilisateur
+        </button>
 
-        <table class="table table-dark table-striped mt-5">
-            <!-- Header -->
-            <thead>
+        <!-- Modal create-->
+        <div class="modal fade" id="admincreate2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create2</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="/permis" method="post" class="modal-body">
+                        <label for="exampleFormControlInput1" class="form-label">nom</label>
+                        <input type="name" class="form-control" name="nom" id="nom">
 
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nom</th>
-                    <th scope="col">Prenom</th>
-                    <th scope="col">mail</th>
-                    <th scope="col">telephone</th>
-                    <th scope="col">modal</th>
-                </tr>
+                        <label for="exampleFormControlInput1" class="form-label">prenom</label>
+                        <input type="name" class="form-control" name="prenom" id="prenom">
 
-            </thead>
+                        <label for="exampleFormControlInput1" class="form-label">telephone</label>
+                        <input type="phone" class="form-control" name="telephone" id="telephone">
 
-            <!-- Body du tableau users -->
-            <tbody>
-                {{#each users }}
-                <tr>
-                    <th scope="row">{{ inc @index }}</th>
-                    <td>{{ upper this.name }}</td>
-                    <td>{{ upper this.prenom }}</td>
-                    <td>{{ upper this.mail }}</td>
-                    <td>{{ upper this.telephone }}</td>
-                    
-                    <td><button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal{{this.id}}">{{ this.name }} n°{{this.neth}}</button></td>
-                </tr>
+                        <label for="exampleFormControlInput1" class="form-label">email</label>
+                        <input type="description" class="form-control" name="email" id="email">
+                        <label for="exampleFormControlInput1" class="form-label">identifiant</label>
+                        <input type="name" class="form-control" name="identifiant" id="identifiant">
 
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal{{this.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">{{this.name}}</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                {{#each users }}
-                                <tr>
-                                    <th scope="">{{ inc @index }}</th>
-                                    <td>{{ upper this.name }}</td>
-                                    <td>{{ upper this.prenom }}</td>
-                                    <td>{{ upper this.mail }}</td>
-                                    <td>{{ upper this.telephone }}</td>
-                                    <td>{{ upper this.neth }}</td>
-                                </tr>
-                                 {{/each }}
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
+                        <label for="exampleFormControlInput1" class="form-label">password</label>
+                        <input type="password" class="form-control" name="password" id="password">
+
+                        <label for="exampleFormControlInput1" class="form-label">status</label>
+                        <input type="status" class="form-control" name="status" id="status">
+
+
+
+                        <div class="modal-footer"></div>
+                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Go ==></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-dark table-striped mt-5">
+        <!-- Header -->
+        <thead>
+
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nom</th>
+                <th scope="col">Prenom</th>
+                <th scope="col">telephone</th>
+                <th scope="col">email</th>
+                <th scope="col">identifiant</th>
+                <th scope="col">password</th>
+                <th scope="col">status</th>
+                <th scope="col">actions</th>
+            </tr>
+
+        </thead>
+
+        <!-- Body du tableau users -->
+        <tbody>
+            {{#each dbUsers }}
+            <tr>
+                <th scope="row">{{ inc @index }}</th>
+                <td>{{ upper this.nom }}</td>
+                <td>{{ upper this.prenom }}</td>
+                <td>{{ upper this.telephone }}</td>
+                <td>{{ upper this.email }}</td>
+                <td>{{ upper this.identifiant }}</td>
+                <td>{{ upper this.password }}</td>
+                <td>{{ upper this.status }}</td>
+
+
+                <td><button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                        data-bs-target="#modalUser{{this.id}}">{{ this.nom }} n°{{this.prenom}}</button></td>
+            </tr>
+
+            <!-- Modal editer supprimer-->
+            <div class="modal fade" id="modalUser{{this.id}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{this.nom}}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {{!-- editer --}}
+                            <form action="/user/{{this.id}}?_method=PUT" method="post">
+                                <div class="col">
+                                    <label for="nom">Nom</label>
+                                    <input type="text" id="nom" name="nom" value="{{ this.nom }}">
+                                </div>
+                                <div class="col">
+                                    <label for="prenom">prenom</label>
+                                    <input type="text" id="prenom" name="prenom" value="{{ this.prenom }}">
+                                </div>
+                                <div class="col">
+                                    <label for="telephone">telephone</label>
+                                    <input type="text" id="telephone" name="telephone" value="{{ this.telephone }}">
+                                </div>
+                                <div class="col">
+                                    <label for="email">email</label>
+                                    <input type="text" id="email" name="email" value="{{ this.email }}">
+                                </div>
+                                <div class="col">
+                                    <label for="identifiant">identifiant</label>
+                                    <input type="text" id="identifiant" name="identifiant"
+                                        value="{{ this.identifiant }}">
+                                </div>
+                                <div class="col">
+                                    <label for="password">password</label>
+                                    <input type="text" id="password" name="password" value="{{ this.password }}">
+                                </div>
+                                <div class="col">
+                                    <label for="status">status</label>
+                                    <input type="text" id="status" name="status" value="{{ this.status }}">
+                                </div>
+
+                                <button type="submit">Editer</button>
+                            </form>
+                            {{!-- supprimer --}}
+                            <form action="/user/{{this.id}}?_method=DELETE" method="post">
+                                <button type="submit">Supprimer</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                 </div>
-                {{/each }}
-            </tbody>
-        </table>
-        <table class="table table-dark table-striped mt-5">
-            <!-- Header -->
-            <thead>
+            </div>
+            {{/each}}
+        </tbody>
+    </table>
 
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">photo</th>
-                    <th scope="col">article1</th>
-                    <th scope="col">article2</th>
-                    <th scope="col">article3</th>
-                    <th scope="col">article4</th>
-                </tr>
-
-            </thead>
-
-            <!-- Body du tableau articles -->
-            <tbody>
-                {{#each articles }}
-                <tr>
-                    <th scope="row">{{ inc @index }}</th>
-                    <td>{{ upper this.photo }}</td>
-                    <td>{{ upper this.art1 }}</td>
-                    <td>{{ upper this.art2 }}</td>
-                    <td>{{ upper this.art3 }}</td>
-                    <td>{{ upper this.art4 }}</td>
-                    <td><button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal{{this.id}}">{{ this.name }}{{this.id}}</button></td>
-                </tr>
-                {{/each }}
-            </tbody>
-        </table>
-    </div>
 </div>
