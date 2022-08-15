@@ -20,6 +20,9 @@
 
                         <label for="exampleFormControlInput1" class="form-label">description</label>
                         <input type="description" class="form-control" name="description" id="description">
+
+                        <label for="exampleFormControlInput1" class="form-label">image</label>
+                        <input type="imagep" class="form-control" name="image" id="image">
                         <div class="modal-footer"></div>
                         <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Go ==></button>
                     </form>
@@ -38,6 +41,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Nom</th>
                 <th scope="col">Description</th>
+                <th scope="col">Image</th>
                 <th scope="col">actions</th>
             </tr>
 
@@ -50,6 +54,7 @@
                 <th scope="row">{{ inc @index }}</th>
                 <td>{{ this.name }}</td>
                 <td>{{ this.description }}</td>
+                <td>{{ this.image }}</td>
 
                 <td>
                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
@@ -78,6 +83,11 @@
                                     <label for="description">Description</label>
                                     <input type="text" id="description" name="description"
                                         value="{{ this.description }}">
+                                </div>
+                                <div class="col">
+                                    <label for="image">Image</label>
+                                    <input type="text" id="image" name="image"
+                                        value="{{ this.image }}">
                                 </div>
                                 <button type="submit">Editer</button>
                             </form>

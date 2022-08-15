@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <h2>Gestion des utilisateurs</h2>
+        <h2>Gestion des utilisateurs du site</h2>
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#admincreate2">
             creation d'utilisateur
@@ -14,7 +14,7 @@
                         <h5 class="modal-title" id="exampleModalLabel">Create2</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="/permis" method="post" class="modal-body">
+                    <form action="/user" method="post" class="modal-body">
                         <label for="exampleFormControlInput1" class="form-label">nom</label>
                         <input type="name" class="form-control" name="nom" id="nom">
 
@@ -32,10 +32,7 @@
                         <label for="exampleFormControlInput1" class="form-label">password</label>
                         <input type="password" class="form-control" name="password" id="password">
 
-                        <label for="exampleFormControlInput1" class="form-label">status</label>
-                        <input type="status" class="form-control" name="status" id="status">
-
-
+                        
 
                         <div class="modal-footer"></div>
                         <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Go ==></button>
@@ -57,7 +54,7 @@
                 <th scope="col">email</th>
                 <th scope="col">identifiant</th>
                 <th scope="col">password</th>
-                <th scope="col">status</th>
+                
                 <th scope="col">actions</th>
             </tr>
 
@@ -74,7 +71,7 @@
                 <td>{{ upper this.email }}</td>
                 <td>{{ upper this.identifiant }}</td>
                 <td>{{ upper this.password }}</td>
-                <td>{{ upper this.status }}</td>
+                
 
 
                 <td><button type="button" class="btn btn-secondary" data-bs-toggle="modal"
@@ -118,10 +115,7 @@
                                     <label for="password">password</label>
                                     <input type="text" id="password" name="password" value="{{ this.password }}">
                                 </div>
-                                <div class="col">
-                                    <label for="status">status</label>
-                                    <input type="text" id="status" name="status" value="{{ this.status }}">
-                                </div>
+                               
 
                                 <button type="submit">Editer</button>
                             </form>

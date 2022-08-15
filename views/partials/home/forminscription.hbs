@@ -1,39 +1,39 @@
 <!-- formulaire d'inscription -->
-<div class="container bg-dark bg-opacity-10">
+
+<div class="container  bg-dark bg-opacity-10">
   <p class="text-center pt-5">Je m'inscris sur Go-permis<br> et<br> j'accède à toutes les offres</p>
-
-  <form action="/forminscription" class="col-md-5" method="post">
-    <div class="row justify-content-center">
-      <label for="exampleFormControlInput1" class="form-label">Nom</label>
-      <input type="text" class="form-control" name="nom">
-      <label for="exampleFormControlInput1" class="form-label">Prénom</label>
-      <input type="text" class="form-control" name="prenom">
-      <div class="col-md-5">
-        <label for="exampleFormControlInput1" class="form-label">Telephone</label>
-        <input type="phone" class="form-control" id="telephone">
-        <label for="exampleFormControlInput1" class="form-label">e-mail</label>
-        <input type="email" class="form-control" id="email">
+  <div class=" col-md-12 justify-content-center ">
+    <form action="/forminscription" method="post" class="row justify-content-center">
+      <div class="col-md-4">
+        <label for="exampleFormControlInput1" class="form-label">Nom</label>
+        <input type="text" class="form-control" name="nom">
+        <label for="exampleFormControlInput2" class="form-label">Prénom</label>
+        <input type="text" class="form-control" name="prenom">
       </div>
-    </div>
-
-    <div class="d-flex justify-content-center my-5">
-      <div class="col-md-5">
-        <label for="exampleFormControlInput1" class="form-label">Identifiant</label>
-        <input type="password" class="form-control" id="identifiant">
-        <label for="exampleFormControlInput1" class="form-label">Mot de passe</label>
-        <input type="password" class="form-control" id="password">
-        <label for="exampleFormControlInput1" class="form-label">verification mdp</label>
-        <input type="text" class="form-control" id="mdp">
+      <div class=" col-md-4">
+        <label for="exampleFormControlInput3" class="form-label">Telephone</label>
+        <input type="phone" class="form-control" name="telephone">
+        <label for="exampleFormControlInput4" class="form-label">e-mail</label>
+        <input type="email" class="form-control" name="email">
       </div>
-    </div>
-    <h5 class="text-center my-5">Conditions générales</h5>
-    <p class="text-center">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime atque porro commodi
-      deserunt facilis
-      voluptatibus
-      non, libero expedita provident id.</p>
-    <div class="d-flex justify-content-center my-5">
-      <button type="submit" class="btn btn-ouline-secondary mb-5 m-2">Validation</button>
-    </div>
-  </form>
-
+      <div class="row justify-content-center my-5">
+        <div class="col-md-5">
+          <label for="exampleFormControlInput5" class="form-label">Identifiant</label>
+          <input type="text" class="form-control"  name="identifiant">
+          <label for="exampleFormControlInput6" class="form-label">Mot de passe</label>
+          <input type="password" class="form-control" name="password">
+          <label for="exampleFormControlInput7" class="form-label">verification mdp</label>
+          <input type="password" class="form-control" name="mdp">
+        </div>
+      </div>
+      <h5 class="text-center my-5">Conditions générales</h5>
+      <p class="text-center">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime atque porro commodi
+        deserunt facilis
+        voluptatibus
+        non, libero expedita provident id.</p>
+      <div class="d-flex justify-content-center my-5">
+        <button type="submit" class="btn btn-ouline-secondary mb-5 m-2">Validation</button>
+      </div>
+    </form>
+  </div>
 </div>
