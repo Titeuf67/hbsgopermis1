@@ -32,7 +32,7 @@
                         <label for="exampleFormControlInput1" class="form-label">password</label>
                         <input type="password" class="form-control" name="password" id="password">
 
-                        
+
 
                         <div class="modal-footer"></div>
                         <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Go ==></button>
@@ -54,7 +54,6 @@
                 <th scope="col">email</th>
                 <th scope="col">identifiant</th>
                 <th scope="col">password</th>
-                
                 <th scope="col">actions</th>
             </tr>
 
@@ -71,11 +70,11 @@
                 <td>{{ upper this.email }}</td>
                 <td>{{ upper this.identifiant }}</td>
                 <td>{{ upper this.password }}</td>
-                
+
 
 
                 <td><button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                        data-bs-target="#modalUser{{this.id}}">{{ this.nom }} n°{{this.prenom}}</button></td>
+                        data-bs-target="#modalUser{{this.id}}">{{ this.nom }} {{this.prenom}}</button></td>
             </tr>
 
             <!-- Modal editer supprimer-->
@@ -115,7 +114,7 @@
                                     <label for="password">password</label>
                                     <input type="text" id="password" name="password" value="{{ this.password }}">
                                 </div>
-                               
+
 
                                 <button type="submit">Editer</button>
                             </form>

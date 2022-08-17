@@ -2,7 +2,7 @@
 const express = require('express');
 const {engine} = require('express-handlebars');
 const app = express();
-
+const bcrypt= require('bcrypt')
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 
@@ -52,3 +52,16 @@ app.use(ROUTER);
 app.listen(PORT_NODE, () => {
     console.log("L'application est démarrer sur le port ", PORT_NODE)
 });
+
+// const str = "123456"
+
+// bcrypt.hash(str,10, function(err, hash) {
+//    console.log("hash", hash) // Store hash in your password DB.
+//    bcrypt.compare(str, hash, (err, result) => {
+//     console.log('compare', result)
+//    })   
+// });
+
+
+
+
