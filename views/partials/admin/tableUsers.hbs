@@ -14,15 +14,15 @@
                         <h5 class="modal-title" id="exampleModalLabel">Create2</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="/user" method="post" class="modal-body">
-                        <label for="exampleFormControlInput1" class="form-label">nom</label>
+                    <form action="/createaccount" method="post" class="modal-body">
+                        {{!-- <label for="exampleFormControlInput1" class="form-label">nom</label>
                         <input type="name" class="form-control" name="nom" id="nom">
 
                         <label for="exampleFormControlInput1" class="form-label">prenom</label>
                         <input type="name" class="form-control" name="prenom" id="prenom">
 
                         <label for="exampleFormControlInput1" class="form-label">telephone</label>
-                        <input type="phone" class="form-control" name="telephone" id="telephone">
+                        <input type="phone" class="form-control" name="telephone" id="telephone"> --}}
 
                         <label for="exampleFormControlInput1" class="form-label">email</label>
                         <input type="description" class="form-control" name="email" id="email">
@@ -48,9 +48,9 @@
 
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Nom</th>
+                {{!-- <th scope="col">Nom</th>
                 <th scope="col">Prenom</th>
-                <th scope="col">telephone</th>
+                <th scope="col">telephone</th> --}}
                 <th scope="col">email</th>
                 <th scope="col">identifiant</th>
                 <th scope="col">password</th>
@@ -64,11 +64,11 @@
             {{#each dbUsers }}
             <tr>
                 <th scope="row">{{ inc @index }}</th>
-                <td>{{ upper this.nom }}</td>
+                {{!-- <td>{{ upper this.nom }}</td>
                 <td>{{ upper this.prenom }}</td>
-                <td>{{ upper this.telephone }}</td>
+                <td>{{ upper this.telephone }}</td> --}}
                 <td>{{ upper this.email }}</td>
-                <td>{{ upper this.identifiant }}</td>
+                <td>{{ upper this.username }}</td>
                 <td>{{ upper this.password }}</td>
 
 

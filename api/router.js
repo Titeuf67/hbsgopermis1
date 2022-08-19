@@ -8,7 +8,7 @@ const MySQLStore = require("express-mysql-session")(expressSession);
 const app = express();
 
 const bcrypt = require('bcrypt');
-const  bcrypt_salt = 10;
+const bcrypt_salt = 10;
 // db.query('select * from permis', (err, data) => {
 //     console.log('iciciciROUTERci', data)
 // })
@@ -138,9 +138,10 @@ router.delete('/user/:id', async (req, res) => {
     await db.query(`DELETE from user WHERE id = ${id}`)
     res.redirect('/admin')
 })
+/*
 // route du formulaire pour create
 router.post('/register', (req, res) => {
-    const { nom, prenom, telephone, email, identifiant, password, mdp } = req.body;
+    const {  email, identifiant, password } = req.body;
 
     if (password != mdp) {
         console.error('ERROR PASSWORD NOT EQUALS')
@@ -161,7 +162,22 @@ INSERT INTO user (nom, prenom, telephone, email, identifiant, password)
 
     })
 })
+*/
+// // inscription (OK)
+router.post('/register', (req, res) => {
+    const { email, identifiant, password } = req.body;
+    // if(password !== confirm_password) return res.redirect('/')
+    // if (!name || !email || !password) return res.redirect('/') 
+    bcrypt.hash(password, bcrypt_salt, function (err, hash) {
+        // if (err) throw err;
+        db.query(`INSERT INTO user SET email="${email}", username="${identifiant}", password="${hash}"`),
+            function (err, data) {
+                if (err) throw err;
 
+            };
+    });
+    res.redirect('/');
+});
 
 // login/connexion
 router.post('/connexion', function (req, res) {
@@ -171,34 +187,46 @@ router.post('/connexion', function (req, res) {
     db.query(`SELECT password FROM user WHERE email="${email}"`, function (err, data) {
         if (err) throw err;
 
-        if (!data[0]) return res.render('/', { flash: "Ce compte n'existe pas" })
+        if (!data[0]) return res.render('/', { flash: "Ce compte n'existe pas"})
+
+      
         bcrypt.compare(password, data[0].password, function (err, result) {
-            if (result === true) { setSession(req, res, email) }
-            else return res.render('forminscription', { flash: "L\'email ou le mot de passe n\'est pas correct !" })
+            if (result === true) {
+                let user = data[0];
+                // Session Connexion for HBS
+                app.use('*', (req, res, next) => {
+                    res.locals.user = req.session.user;
+                    next();
+                })
+                // Assignation des data user dans la session
+
+                req.session.user = {
+                    id: user.id,
+                    email: user.email,
+                    name: user.name,
+                    account_create: user.create_time,
+
+                };
+
+                res.redirect('/')
+            }
+            else return res.render('forminscription')
         });
     })
 })
 
-// // inscription
-app.post('/register', (req, res) => {
-    const { name, email, password } = req.body;
-    // if(password !== confirm_password) return res.redirect('/')
-    if(!name || !email || !password)return res.redirect('/')
-    bcrypt.hash(password, bcrypt_salt, function(err, hash) {
-      db.query(`INSERT INTO user SET name="${name}", email="${email}", password="${hash}", isAdmin=0`, function (err, data) {
-        if (err) throw err;
-        res.redirect('/connexion');
-      })
-    });
-  })
+
+
+
+
 //   // deconnexion
-  app.post('/logout', (req, res)=>{
+app.post('/logout', (req, res) => {
     req.session.destroy(() => {
-      res.clearCookie('poti-gato');
-      console.log("Clear Cookie session :", req.sessionID);
-      res.redirect('/');
+        res.clearCookie('poti-gato');
+        console.log("Clear Cookie session :", req.sessionID);
+        res.redirect('/');
     });
-  })
+})
 
 router.get('/inscription', function (req, res) {
     res.render('inscription')

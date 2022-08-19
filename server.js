@@ -2,16 +2,18 @@
 const express = require('express');
 const {engine} = require('express-handlebars');
 const app = express();
-const bcrypt= require('bcrypt')
+const bcrypt= require('bcrypt');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
+const expressSession = require("express-session")
+const MySQLStore = require ("express-mysql-session")(expressSession)
 
 // Require Config DB ( MYSQL )
 require('./api/config/db')
 
 // Déstructuration de process.env
 require('dotenv').config()
-const { PORT_NODE } = process.env;
+const { DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, PORT_NODE } = process.env;
 
 const { inc, upper } = require('./helpers')
 
@@ -20,8 +22,9 @@ app.engine('.hbs', engine({
     extname: '.hbs',
     defaultLayout:"main",
     adminLayout: "adminLayout",
+
     helpers: {
-        inc, upper
+        inc,upper
     }
 }));
 
@@ -44,6 +47,12 @@ app.use('/assets', express.static('public'))
 app.set('view engine', '.hbs');
 app.set('views', './views');
 
+// app.use('*', (req, res, next) => {
+//     console.log('session server.js', req.session)
+//     // res.locals.user = req.session.user
+//     next()
+// })
+
 // Router
 const ROUTER = require("./api/router");
 app.use(ROUTER); 
@@ -61,6 +70,35 @@ app.listen(PORT_NODE, () => {
 //     console.log('compare', result)
 //    })   
 // });
+
+// * Config mysql
+// ***************/
+let configDB = {
+  host: DB_HOST,
+  user: DB_USER,
+  password: DB_PASSWORD,
+  database: DB_DATABASE
+};
+// * Configuration de la route vers notre dossier static
+//  ******************************************************
+app.use("/assets", express.static('public'));
+
+// Configuration Express-Session
+var sessionStore = new MySQLStore(configDB);
+app.use(
+  expressSession({
+    secret: "securite",
+    name: "poti-gato",
+    saveUninitialized: true,
+    resave: false,
+    store: sessionStore
+  })
+);
+// Session Connexion for HBS
+app.use('*', (req, res, next) => {
+  res.locals.user = req.session.user;
+  next();
+})
 
 
 

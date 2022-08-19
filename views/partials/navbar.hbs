@@ -34,9 +34,9 @@
         {{!-- <button class="btn btn-outline-secondary mx-1">Inscription</button> --}}
         <!-- Button trigger modal -->
            {{#if user}}
-        {{#if user.isAdmin}}
+        {{!-- {{#if user.isAdmin}}
             <li><a href="/admin">Admin</a></li>
-        {{/if}}
+        {{/if}} --}}
     <li>
         <form action="/logout" method="post">
              <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Déconnexion</button>      
