@@ -2,7 +2,7 @@
 const express = require('express');
 const {engine} = require('express-handlebars');
 const app = express();
-const bcrypt= require('bcrypt');
+// const bcrypt= require('bcrypt');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const expressSession = require("express-session")

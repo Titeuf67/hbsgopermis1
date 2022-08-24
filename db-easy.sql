@@ -23,7 +23,7 @@ USE `dbpermis` ;
 CREATE TABLE IF NOT EXISTS `dbpermis`.`user` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL UNIQUE,
   `password` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `dbpermis`.`user` (
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `dbpermis`.`permis` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(255) NOT NULL,
+  `name` VARCHAR(255) NOT NULL UNIQUE,
   `description` LONGTEXT NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);
@@ -55,6 +55,10 @@ SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
-
+-- Article
 INSERT INTO permis (name, description) VALUES ("Permis B", "Ma super descreiption");
-INSERT INTO permis (name, description) VALUES ("Permis c", "Ma super description");
+INSERT INTO permis (name, description) VALUES ("Permis C", "Ma super description");
+
+-- User
+-- password 123456
+INSERT INTO user (email, username, password) VALUES ( "christian.fillette@gmail.com", "titeuf", "$2b$10$wVDCS1rhJLzjXwX.K9drF.CCz0UeU8k/EHv2TG06deCs0tmGLUfcW");

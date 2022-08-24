@@ -36,7 +36,7 @@ router.get('/permis/:id', (req, res) => {
         console.log('data', data)
         if (err) console.log(err)
         else if (data.length > 0) {
-            res.render('pageIdAuto', {
+            res.render('pageId', {
                 permis: data[0]
             })
         } else {
@@ -85,8 +85,8 @@ router.get('/inscription', function (req, res) {
     res.render('inscription')
 })
 
-router.get('/pageIdAuto', function (req, res) {
-    res.render('pageIdAuto')
+router.get('/pageId', function (req, res) {
+    res.render('pageId')
 })
 
 router.get('/admin', function (req, res) {

@@ -1,14 +1,12 @@
-
 <div class="container row m-auto">
   <div class="d-flex  justify-content-end me-5 my-5" role="search">
     <a href="/inscription" class="btn btn-outline-secondary">Inscription</a>
   </div>
   <div class="col-md-6">
     <div class="ms-4">
-      {{#each dbPermis}}
-      <h6>Vous avez choisis le permis {{ this.name }}</h6>
-      <p>{{ this.description }}</p>
-      {{/each}}
+      <h6>Vous avez choisis le permis {{ permis.name }}</h6>
+      <p>{{ permis.description }}</p>
+
       <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Adipisci sunt quia quisquam nemo minus eaque ratione
         quo? Inventore eaque quam explicabo omnis, amet culpa ratione? Nam animi sed debitis eligendi corrupti omnis
         aut,
@@ -27,7 +25,7 @@
           <option selected>cliquer ici</option>
           <option value="1">boite manuelle</option>
           <option value="2">boite automatique</option>
-                 </select>
+        </select>
       </div>
       <p class="col-md-9 pt-2">Choisir le type de véhicule par la boite de vitesse</p>
       <div class="col-md-3">
@@ -35,7 +33,7 @@
           <option selected>cliquer ici</option>
           <option value="1">Majeur</option>
           <option value="2">Mineur</option>
-                 </select>
+        </select>
       </div>
       <p class="col-md-9 pt-2">Vous etes majeurs ou mineur</p>
       <div class="col-md-3">

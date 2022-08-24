@@ -2,6 +2,7 @@ const fkdb = require("./config/db.json")
 const express = require("express");
 const router = express.Router()
 const db = require('./config/db')
+const morgan = require('morgan')
 const expressSession = require("express-session");
 const MySQLStore = require("express-mysql-session")(expressSession);
 // const { isAdmin } = require('./middleware');
@@ -9,14 +10,12 @@ const app = express();
 
 const bcrypt = require('bcrypt');
 const bcrypt_salt = 10;
-// db.query('select * from permis', (err, data) => {
-//     console.log('iciciciROUTERci', data)
-// })
-
+app.use(morgan('dev'))
 // Import des middlewares
 // const { isAdmin } = require('./middleware');
 
 // Router
+// routeur get ramene les info sur les cards/
 router.get('/', async (req, res) => {
     const data = await db.query(`SELECT * FROM permis`)
 
@@ -32,85 +31,94 @@ router.get('/', async (req, res) => {
 
 })
 
-router
 
-    // crud table permis
+// crud table permis
+router
     .get('/permis', async (req, res) => {
         const { id } = req.params
         const data = await db.query(`SELECT * FROM permis WHERE id = ${id}`)
 
         if (data.length > 0) {
-            res.render('pageIdAuto', {
+            res.render('pageId', {
                 permis: data[0]
             })
         } else {
             res.redirect('/')
         }
     })
+
+    // create
     .post('/permis', (req, res) => {
-        console.log('POST::permis', req.body)
+        console.log('post:permis', req.body)
         const { name, description, image } = req.body;
 
-        db.query(`
-    INSERT INTO permis (name, description, image)
-        VALUES ("${name}", "${description}", "${image}")
-    `, (err, data) => {
-            db.query(`SELECT * from permis WHERE id = ${data.insertId}`, (err, obj) => {
+        db.query(`INSERT INTO permis (name, description) VALUES ("${name}", "${description}");`, (err, data) => {
+            if (err) throw err;
+
+            db.query(`SELECT * from permis WHERE id = "${data.insertId}"`, (err, obj) => {
+                console.log(req.body)
                 db.query('SELECT * FROM permis', (err, arr) => {
-                    // res.json({ ...req.body, data, obj, arr })
                     res.redirect('/admin')
                 })
             })
 
+        });
+    })
+// .post('/permis', async (req, res) => {
+//     const { name, description } = req.body;
+
+//     if (name & description) {
+//         await db.query(`INSERT INTO permis (name, description) VALUES ('${name}', '${description}')`)
+//         res.redirect('/admin')
+
+//     } else res.send('Error')
+
+// })
+
+router
+    .get('/permis/:id', async (req, res) => {
+        const { id } = req.params;
+        const dbPermis = await db.query(`SELECT * FROM permis WHERE id=${id}`)
+        console.log(dbPermis);
+
+        if (dbPermis.length <= 0) res.redirect('/')
+        else res.render('pageId', {
+            permis: dbPermis[0]
         })
     })
-    // .post('/permis', async (req, res) => {
-    //     const { name, description } = req.body;
-
-    //     if (name & description) {
-    //         await db.query(`INSERT INTO permis (name, description) VALUES ('${name}', '${description}')`)
-    //         res.redirect('/admin')
-
-    //     } else res.send('Error')
-
-    // })
-
+    // editer
     .put('/permis/:id', async (req, res) => {
         const { name, description, image } = req.body;
         const { id } = req.params;
 
         if (name) await db.query(`UPDATE permis set name = "${name}" WHERE id = ${id};`)
         if (description) await db.query(`UPDATE permis set description = "${description}" WHERE id = ${id};`)
-        if (image) await db.query(`UPDATE permis set image = "${image}" WHERE id = ${id};`)
+        // if (image) await db.query(`UPDATE permis set image = "${image}" WHERE id = ${id};`)
 
         res.redirect('/admin')
     })
+
+    // suprimer
     .delete('/permis/:id', async (req, res) => {
         const { id } = req.params;
 
         await db.query(`DELETE from permis WHERE id = ${id}`)
         res.redirect('/admin')
     })
-router.get('/permis/:id', async (req, res) => {
-    const { id } = req.params;
-    const dbPermis = await db.query(`SELECT * FROM permis WHERE id=${id}`)
-    // console.log(dbPermis);
-    res.render('pageIdAuto', {
-        dbPermis
-    })
-})
+
+
 // fin des router table permis
 
 // router crud table user
 
 router.post('/user', (req, res) => {
     console.log('POST:user', req.body)
-    const { nom, prenom, telephone, email, identifiant, password } = req.body;
+    const { nom, prenom, telephone, email, username, password } = req.body;
 
     db.query(`
-INSERT INTO user (nom, prenom, telephone, email, identifiant, password)
-    VALUES ("${nom}", "${prenom}", "${telephone}", "${email}", "${identifiant}", "${password}")
-`, (err, data) => {
+        INSERT INTO user (email, username, password)
+            VALUES ("${email}", "${username}", "${password}")
+        `, (err, data) => {
         db.query(`SELECT * from user WHERE id = ${data.insertId}`, (err, obj) => {
             db.query('SELECT * FROM user', (err, arr) => {
                 res.redirect('/admin')
@@ -120,14 +128,11 @@ INSERT INTO user (nom, prenom, telephone, email, identifiant, password)
     })
 })
 router.put('/user/:id', async (req, res) => {
-    const { nom, prenom, telephone, email, identifiant, password } = req.body;
+    const { email, username, password } = req.body;
     const { id } = req.params;
 
-    if (nom) await db.query(`UPDATE user set nom = "${nom}" WHERE id = ${id};`)
-    if (prenom) await db.query(`UPDATE user set prenom = "${prenom}" WHERE id = ${id};`)
-    if (telephone) await db.query(`UPDATE user set telephone = "${telephone}" WHERE id = ${id};`)
     if (email) await db.query(`UPDATE user set email = "${email}" WHERE id = ${id};`)
-    if (identifiant) await db.query(`UPDATE user set identifiant = "${identifiant}" WHERE id = ${id};`)
+    if (username) await db.query(`UPDATE user set username = "${username}" WHERE id = ${id};`)
     if (password) await db.query(`UPDATE user set password = "${password}" WHERE id = ${id};`)
 
     res.redirect('/admin')
@@ -138,22 +143,24 @@ router.delete('/user/:id', async (req, res) => {
     await db.query(`DELETE from user WHERE id = ${id}`)
     res.redirect('/admin')
 })
-/*
-// route du formulaire pour create
-router.post('/register', (req, res) => {
-    const {  email, identifiant, password } = req.body;
 
-    if (password != mdp) {
-        console.error('ERROR PASSWORD NOT EQUALS')
-        return
-    }
+/*
+// route du formulaire pour create*/
+
+router.post('/register', async (req, res) => {
+    const { email, username, password } = req.body;
+
+    //  if (password != mdp) {
+    //       return
+    //  }
 
     console.log('register', req.body)
 
     db.query(`
-INSERT INTO user (nom, prenom, telephone, email, identifiant, password)
-    VALUES ("${nom}", "${prenom}", "${telephone}", "${email}", "${identifiant}", "${password}")
-`, (err, data) => {
+        INSERT INTO user (email, username, password)
+            VALUES ( "${email}", "${username}", "${await bcrypt.hash(password, 10)}");`, (err, data) => {
+        if (err) console.log(err)
+        console.log('data', data)
         db.query(`SELECT * from user WHERE id = ${data.insertId}`, (err, obj) => {
             db.query('SELECT * FROM user', (err, arr) => {
                 res.redirect('/admin')
@@ -162,22 +169,8 @@ INSERT INTO user (nom, prenom, telephone, email, identifiant, password)
 
     })
 })
-*/
-// // inscription (OK)
-router.post('/register', (req, res) => {
-    const { email, identifiant, password } = req.body;
-    // if(password !== confirm_password) return res.redirect('/')
-    // if (!name || !email || !password) return res.redirect('/') 
-    bcrypt.hash(password, bcrypt_salt, function (err, hash) {
-        // if (err) throw err;
-        db.query(`INSERT INTO user SET email="${email}", username="${identifiant}", password="${hash}"`),
-            function (err, data) {
-                if (err) throw err;
 
-            };
-    });
-    res.redirect('/');
-});
+
 
 // login/connexion
 router.post('/connexion', function (req, res) {
@@ -187,9 +180,7 @@ router.post('/connexion', function (req, res) {
     db.query(`SELECT password FROM user WHERE email="${email}"`, function (err, data) {
         if (err) throw err;
 
-        if (!data[0]) return res.render('/', { flash: "Ce compte n'existe pas"})
-
-      
+        if (!data[0]) return res.redirect('/')
         bcrypt.compare(password, data[0].password, function (err, result) {
             if (result === true) {
                 let user = data[0];
@@ -215,7 +206,21 @@ router.post('/connexion', function (req, res) {
     })
 })
 
+// // // inscription (OK)
+// router.post('/register', (req, res) => {
+//     const { email, username, password } = req.body;
+//     // if(password !== confirm_password) return res.redirect('/')
+//     // if (!name || !email || !password) return res.redirect('/') 
+//     bcrypt.hash(password, bcrypt_salt, function (err, hash) {
+//         // if (err) throw err;
+//         db.query(`INSERT INTO user SET email="${email}", username="${username}", password="${hash}"`),
+//             function (err, data) {
+//                 if (err) throw err;
 
+//             };
+//     });
+//     res.redirect('/');
+// });
 
 
 
@@ -246,8 +251,8 @@ router.get('/forminscription', function (req, res) {
 //         res.render('forminscription')
 //     })
 
-router.get('/pageIdAuto', function (req, res) {
-    res.render('pageIdAuto')
+router.get('/pageId', function (req, res) {
+    res.render('pageId')
 })
 
 router.get('/admin', async (req, res) => {
@@ -259,13 +264,50 @@ router.get('/admin', async (req, res) => {
             // Quand nous utilisons un layout qui n'est pas celui par default nous devons le spécifié
             layout: "adminLayout",
             dbPermis,
-            dbUsers,
-
+            dbUsers
         });
     } else {
         res.redirect('/')
     }
 
 })
+"use strict";
+const nodemailer = require("nodemailer");
+
+// async..await is not allowed in global scope, must use a wrapper
+async function main() {
+    // Generate test SMTP service account from ethereal.email
+    // Only needed if you don't have a real mail account for testing
+    let testAccount = await nodemailer.createTestAccount();
+
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: testAccount.user, // generated ethereal user
+            pass: testAccount.pass, // generated ethereal password
+        },
+    });
+
+    // send mail with defined transport object
+    let info = await transporter.sendMail({
+        from: '"Fred Foo 👻" <foo@example.com>', // sender address
+        to: "bar@example.com, baz@example.com", // list of receivers
+        subject: "Hello ✔", // Subject line
+        text: "Hello world?", // plain text body
+        html: "<b>Hello world?</b>", // html body
+    });
+
+    console.log("Message sent: %s", info.messageId);
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+
+    // Preview only available when sending through an Ethereal account
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+}
+
+// main().catch(console.error);
 
 module.exports = router
