@@ -30,23 +30,25 @@
       </ul>
       <!-- boutons de droite -->
       <div class="d-flex" role="search">
-        <a href="/forminscription" class="btn btn-outline-secondary mx-1">Inscription</a>
+
         {{!-- <button class="btn btn-outline-secondary mx-1">Inscription</button> --}}
         <!-- Button trigger modal -->
-           {{#if user}}
+        {{#if user}}
         {{!-- {{#if user.isAdmin}}
-            <li><a href="/admin">Admin</a></li>
+        <li><a href="/admin">Admin</a></li>
         {{/if}} --}}
-    <li>
-        <form action="/logout" method="post">
-             <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Déconnexion</button>      
-        </form> 
-    </li>
-    {{else}}
-        <a href="/connexion" type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <li>
+          <form action="/logout" method="post">
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Déconnexion</button>
+          </form>
+        </li>
+        {{else}}
+        <a href="/forminscription" class="btn btn-outline-secondary mx-1">Inscription</a>
+        <a href="/connexion" type="button" class="btn btn-secondary" data-bs-toggle="modal"
+          data-bs-target="#exampleModal">
           Connexion
         </a>
-         {{/if}}
+        {{/if}}
         {{!-- </button> --}}
       </div>
     </div>
@@ -60,12 +62,12 @@
 <div class="modal fade" id="exampleModal" tabindex="1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Connexion</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form action="/connexion" method="post">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Connexion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="/connexion" method="post">
         <div class="modal-body col-8">
           <label for="exampleFormControlInput1" class="form-label">email</label>
           <input type="email" class="form-control" name="email" id="email" placeholder="email">
