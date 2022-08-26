@@ -5,6 +5,7 @@ const db = require('./config/db')
 const morgan = require('morgan')
 const expressSession = require("express-session");
 const MySQLStore = require("express-mysql-session")(expressSession);
+const { setSession } = require("./utils/setSession")
 // const { isAdmin } = require('./middleware');
 const app = express();
 
@@ -86,6 +87,10 @@ router
             permis: dbPermis[0]
         })
     })
+
+
+
+
     // editer
     .put('/permis/:id', async (req, res) => {
         const { name, description, image } = req.body;
@@ -111,22 +116,22 @@ router
 
 // router crud table user
 
-router.post('/user', (req, res) => {
-    console.log('POST:user', req.body)
-    const { nom, prenom, telephone, email, username, password } = req.body;
+// router.post('/user', (req, res) => {
+//     console.log('POST:user', req.body)
+//     const { nom, prenom, telephone, email, username, password } = req.body;
 
-    db.query(`
-        INSERT INTO user (email, username, password)
-            VALUES ("${email}", "${username}", "${password}")
-        `, (err, data) => {
-        db.query(`SELECT * from user WHERE id = ${data.insertId}`, (err, obj) => {
-            db.query('SELECT * FROM user', (err, arr) => {
-                res.redirect('/admin')
-            })
-        })
+//     db.query(`
+//         INSERT INTO user (email, username, password)
+//             VALUES ("${email}", "${username}", "${password}")
+//         `, (err, data) => {
+//         db.query(`SELECT * from user WHERE id = ${data.insertId}`, (err, obj) => {
+//             db.query('SELECT * FROM user', (err, arr) => {
+//                 res.redirect('/admin')
+//             })
+//         })
 
-    })
-})
+//     })
+// })
 router.put('/user/:id', async (req, res) => {
     const { email, username, password } = req.body;
     const { id } = req.params;
@@ -146,6 +151,12 @@ router.delete('/user/:id', async (req, res) => {
 
 /*
 // route du formulaire pour create*/
+
+
+// ----------------------------------------------------------------//
+// ----------------------SEPARATE----------------------------------//
+// ----------------------------------------------------------------//
+
 
 router.post('/register', async (req, res) => {
     const { email, username, password } = req.body;
@@ -170,57 +181,85 @@ router.post('/register', async (req, res) => {
     })
 })
 
+// ----------------------------------------------------------------//
+// ----------------------SEPARATE----------------------------------//
+// ----------------------------------------------------------------//
 
-
-// login/connexion
-router.post('/connexion', function (req, res) {
-    console.log("connexion", req.body)
-    // res.render('forminscription')
-    const { email, password } = req.body;
+router.post('/connexion', (req, res) => {
+    const { email, password } = req.body
     db.query(`SELECT password FROM user WHERE email="${email}"`, function (err, data) {
         if (err) throw err;
-
-        if (!data[0]) return res.redirect('/')
+        console.log("connecter");
+        if (!data[0]) return res.render('/', { flash: "Ce compte n'existe pas" })
         bcrypt.compare(password, data[0].password, function (err, result) {
+
             if (result === true) {
-                let user = data[0];
-                // Session Connexion for HBS
-                app.use('*', (req, res, next) => {
-                    res.locals.user = req.session.user;
-                    next();
+                db.query(`SELECT * FROM user WHERE email="${email}"`, (err, data) => {
+                    if (err) {
+                        console.log('err', err)
+                        res.end()
+                    } else {
+                        req.session.user = {...data[0]};
+                        delete req.session.user.password
+
+                        console.log("connexion data", data[0]);
+                        res.redirect('/')
+                    }
                 })
-                // Assignation des data user dans la session
-
-                req.session.user = {
-                    id: user.id,
-                    email: user.email,
-                    name: user.name,
-                    account_create: user.create_time,
-
-                };
-
-                res.redirect('/')
             }
-            else return res.render('forminscription')
+            else return res.render('home')
+
         });
     })
+
 })
 
-// // // inscription (OK)
-// router.post('/register', (req, res) => {
-//     const { email, username, password } = req.body;
-//     // if(password !== confirm_password) return res.redirect('/')
-//     // if (!name || !email || !password) return res.redirect('/') 
-//     bcrypt.hash(password, bcrypt_salt, function (err, hash) {
-//         // if (err) throw err;
-//         db.query(`INSERT INTO user SET email="${email}", username="${username}", password="${hash}"`),
-//             function (err, data) {
-//                 if (err) throw err;
 
-//             };
-//     });
-//     res.redirect('/');
-// });
+// ----------------------------------------------------------------//
+// ----------------------SEPARATE----------------------------------//
+// ----------------------------------------------------------------//
+
+
+// // login/connexion
+// router.post('/connexion', function (req, res) {
+//     console.log("connexion", req.body)
+//     // res.render('forminscription')
+//     const { email, password } = req.body;
+//     db.query(`SELECT password FROM user WHERE email="${email}"`, function (err, data) {
+//         if (err) throw err;
+
+//         if (!data[0]) return res.redirect('/')
+//         bcrypt.compare(password, data[0].password, function (err, result) {
+//             if (result === true) {
+//                  setSession(req, res, email) 
+
+//                 }
+//                 else return res.render('connexion')
+//                 })
+//                 // let user = data[0];
+//                 // // Session Connexion for HBS
+//                 // app.use('*', (req, res, next) => {
+//                 //     res.locals.user = req.session.user;
+//                 //     next();
+//                 // })
+//                 // // Assignation des data user dans la session
+
+//                 // req.session.user = {
+//                 //     id: user.id,
+//                 //     email: user.email,
+//                 //     name: user.name,
+//                 //     account_create: user.create_time,
+
+//                 // };
+
+//                 res.redirect('/')
+//             })
+//             // else return res.render('forminscription')
+//         });
+
+// ----------------------------------------------------------------//
+// ----------------------SEPARATE----------------------------------//
+// ----------------------------------------------------------------//
 
 
 

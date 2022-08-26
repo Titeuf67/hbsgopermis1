@@ -53,24 +53,6 @@ app.set('views', './views');
 //     next()
 // })
 
-// Router
-const ROUTER = require("./api/router");
-app.use(ROUTER); 
-
-// Run server
-app.listen(PORT_NODE, () => {
-    console.log("L'application est démarrer sur le port ", PORT_NODE)
-});
-
-// const str = "123456"
-
-// bcrypt.hash(str,10, function(err, hash) {
-//    console.log("hash", hash) // Store hash in your password DB.
-//    bcrypt.compare(str, hash, (err, result) => {
-//     console.log('compare', result)
-//    })   
-// });
-
 // * Config mysql
 // ***************/
 let configDB = {
@@ -100,6 +82,22 @@ app.use('*', (req, res, next) => {
   next();
 })
 
+// Router
+const ROUTER = require("./api/router");
+app.use(ROUTER); 
 
+// Run server
+app.listen(PORT_NODE, () => {
+    console.log("L'application est démarrer sur le port ", PORT_NODE)
+});
+
+// const str = "123456"
+
+// bcrypt.hash(str,10, function(err, hash) {
+//    console.log("hash", hash) // Store hash in your password DB.
+//    bcrypt.compare(str, hash, (err, result) => {
+//     console.log('compare', result)
+//    })   
+// });
 
 
