@@ -1,30 +1,30 @@
 <!-- formulaire de contact -->
 <div class="container col-lg-10">
   <h1 class="text-center m-5">Contactez-nous</h1>
-  <div class="row my-5">
+  <form class="row my-5" action="/contact" method="post">
     <!-- colonne de gauche -->
     <div class="col-md-6">
       <div class="row justify-content-flex-start">
         <div class="col-md-6">
           <label for="exampleFormControlInput1" class="form-label">Votre Prénom</label>
-          <input type="email" class="form-control shadow-lg" id="exampleFormControlInput1" placeholder="name">
+          <input type="text" name="prenom" class="form-control shadow-lg" id="exampleFormControlInput1" placeholder="name">
         </div>
         <div class="mb-4 col-md-6">
           <label for="exampleFormControlInput1" class="form-label">Votre Nom</label>
-          <input type="email" class="form-control shadow-lg" id="exampleFormControlInput1" placeholder="name">
+          <input type="text" name="nom" class="form-control shadow-lg" id="exampleFormControlInput1" placeholder="name">
         </div>
       </div>
       <div class="mb-4  col-md-12 ">
         <label for="exampleFormControlInput1" class="form-label">Votre Email</label>
-        <input type="email" class="form-control shadow-lg" id="exampleFormControlInput1" placeholder="name@example.com">
+        <input type="email" name="email" class="form-control shadow-lg" id="exampleFormControlInput1" placeholder="name@example.com">
       </div>
       <div class="mb-4 col-md-12">
         <label for="exampleFormControlInput1" class="form-label">Sujet</label>
-        <input type="email" class="form-control shadow-lg" id="exampleFormControlInput1" placeholder="sujet">
+        <input type="text" name="sujet" class="form-control shadow-lg" id="exampleFormControlInput1" placeholder="sujet">
       </div>
       <div class="mb-3 col-md-12">
         <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-        <textarea class="form-control shadow-lg" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <textarea class="form-control shadow-lg" name="message" id="exampleFormControlTextarea1" rows="3"></textarea>
       </div>
     </div>
     <!-- colonne de droite -->
@@ -49,8 +49,8 @@
       </div>
     </div>
     <div class="d-flex justify-content-center my-5">
-      <button type="envoyer" class="btn btn-outline-secondary shadow-lg">Valider</button>
+      <button type="submit" class="btn btn-outline-secondary shadow-lg">Valider</button>
     </div>
-  </div>
+  </form>
 </div>
 <!-- fin du formulaire de contact -->

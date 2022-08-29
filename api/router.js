@@ -8,6 +8,9 @@ const MySQLStore = require("express-mysql-session")(expressSession);
 const { setSession } = require("./utils/setSession")
 // const { isAdmin } = require('./middleware');
 const app = express();
+require('dotenv').config()
+const { MAIL_USER } = process.env
+const transporter = require('./config/nodemailer')
 
 const bcrypt = require('bcrypt');
 const bcrypt_salt = 10;
@@ -114,24 +117,9 @@ router
 
 // fin des router table permis
 
-// router crud table user
 
-// router.post('/user', (req, res) => {
-//     console.log('POST:user', req.body)
-//     const { nom, prenom, telephone, email, username, password } = req.body;
+//  Router user
 
-//     db.query(`
-//         INSERT INTO user (email, username, password)
-//             VALUES ("${email}", "${username}", "${password}")
-//         `, (err, data) => {
-//         db.query(`SELECT * from user WHERE id = ${data.insertId}`, (err, obj) => {
-//             db.query('SELECT * FROM user', (err, arr) => {
-//                 res.redirect('/admin')
-//             })
-//         })
-
-//     })
-// })
 router.put('/user/:id', async (req, res) => {
     const { email, username, password } = req.body;
     const { id } = req.params;
@@ -151,11 +139,6 @@ router.delete('/user/:id', async (req, res) => {
 
 /*
 // route du formulaire pour create*/
-
-
-// ----------------------------------------------------------------//
-// ----------------------SEPARATE----------------------------------//
-// ----------------------------------------------------------------//
 
 
 router.post('/register', async (req, res) => {
@@ -185,6 +168,8 @@ router.post('/register', async (req, res) => {
 // ----------------------SEPARATE----------------------------------//
 // ----------------------------------------------------------------//
 
+// Connexion au site
+
 router.post('/connexion', (req, res) => {
     const { email, password } = req.body
     db.query(`SELECT password FROM user WHERE email="${email}"`, function (err, data) {
@@ -199,7 +184,7 @@ router.post('/connexion', (req, res) => {
                         console.log('err', err)
                         res.end()
                     } else {
-                        req.session.user = {...data[0]};
+                        req.session.user = { ...data[0] };
                         delete req.session.user.password
 
                         console.log("connexion data", data[0]);
@@ -214,63 +199,23 @@ router.post('/connexion', (req, res) => {
 
 })
 
-
-// ----------------------------------------------------------------//
-// ----------------------SEPARATE----------------------------------//
-// ----------------------------------------------------------------//
-
-
-// // login/connexion
-// router.post('/connexion', function (req, res) {
-//     console.log("connexion", req.body)
-//     // res.render('forminscription')
-//     const { email, password } = req.body;
-//     db.query(`SELECT password FROM user WHERE email="${email}"`, function (err, data) {
-//         if (err) throw err;
-
-//         if (!data[0]) return res.redirect('/')
-//         bcrypt.compare(password, data[0].password, function (err, result) {
-//             if (result === true) {
-//                  setSession(req, res, email) 
-
-//                 }
-//                 else return res.render('connexion')
-//                 })
-//                 // let user = data[0];
-//                 // // Session Connexion for HBS
-//                 // app.use('*', (req, res, next) => {
-//                 //     res.locals.user = req.session.user;
-//                 //     next();
-//                 // })
-//                 // // Assignation des data user dans la session
-
-//                 // req.session.user = {
-//                 //     id: user.id,
-//                 //     email: user.email,
-//                 //     name: user.name,
-//                 //     account_create: user.create_time,
-
-//                 // };
-
-//                 res.redirect('/')
-//             })
-//             // else return res.render('forminscription')
-//         });
-
-// ----------------------------------------------------------------//
-// ----------------------SEPARATE----------------------------------//
-// ----------------------------------------------------------------//
-
-
-
 //   // deconnexion
-app.post('/logout', (req, res) => {
+router.post('/logout', (req, res) => {
     req.session.destroy(() => {
         res.clearCookie('poti-gato');
         console.log("Clear Cookie session :", req.sessionID);
         res.redirect('/');
     });
 })
+
+
+// ----------------------------------------------------------------//
+// ----------------------SEPARATE----------------------------------//
+// ----------------------------------------------------------------//
+
+
+
+
 
 router.get('/inscription', function (req, res) {
     res.render('inscription')
@@ -284,11 +229,23 @@ router.get('/forminscription', function (req, res) {
         res.render('forminscription')
     })
 
-// router
-//     .post('/login', function (req, res) {
-//         console.log("login", req.body)
-//         res.render('forminscription')
-//     })
+router.post('/contact', async function (req, res) {
+    console.log("contact", req.body)
+
+    const infomail = await transporter.sendMail({
+
+        to: MAIL_USER,
+        
+        html:  `<h3>sujet :${req.body.sujet}</h3>       
+                <h3>expediteur : ${req.body.email}</h3>
+                <h3> ${req.body.message}</h3>`
+    });
+
+    console.log('Info mail', infomail)
+    transporter.close();
+
+    res.redirect('/')
+})
 
 router.get('/pageId', function (req, res) {
     res.render('pageId')
@@ -310,43 +267,6 @@ router.get('/admin', async (req, res) => {
     }
 
 })
-"use strict";
-const nodemailer = require("nodemailer");
 
-// async..await is not allowed in global scope, must use a wrapper
-async function main() {
-    // Generate test SMTP service account from ethereal.email
-    // Only needed if you don't have a real mail account for testing
-    let testAccount = await nodemailer.createTestAccount();
-
-    // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false, // true for 465, false for other ports
-        auth: {
-            user: testAccount.user, // generated ethereal user
-            pass: testAccount.pass, // generated ethereal password
-        },
-    });
-
-    // send mail with defined transport object
-    let info = await transporter.sendMail({
-        from: '"Fred Foo 👻" <foo@example.com>', // sender address
-        to: "bar@example.com, baz@example.com", // list of receivers
-        subject: "Hello ✔", // Subject line
-        text: "Hello world?", // plain text body
-        html: "<b>Hello world?</b>", // html body
-    });
-
-    console.log("Message sent: %s", info.messageId);
-    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-
-    // Preview only available when sending through an Ethereal account
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-}
-
-// main().catch(console.error);
 
 module.exports = router

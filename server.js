@@ -14,6 +14,7 @@ require('./api/config/db')
 // Déstructuration de process.env
 require('dotenv').config()
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, PORT_NODE } = process.env;
+// console.log('process', process.env)
 
 const { inc, upper } = require('./helpers')
 
@@ -91,13 +92,6 @@ app.listen(PORT_NODE, () => {
     console.log("L'application est démarrer sur le port ", PORT_NODE)
 });
 
-// const str = "123456"
 
-// bcrypt.hash(str,10, function(err, hash) {
-//    console.log("hash", hash) // Store hash in your password DB.
-//    bcrypt.compare(str, hash, (err, result) => {
-//     console.log('compare', result)
-//    })   
-// });
 
 

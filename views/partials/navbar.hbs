@@ -29,14 +29,9 @@
         </li>
       </ul>
       <!-- boutons de droite -->
-      <div class="d-flex" role="search">
+      <div class="d-flex list-unstyled" role="search">
 
-        {{!-- <button class="btn btn-outline-secondary mx-1">Inscription</button> --}}
-        <!-- Button trigger modal -->
         {{#if user}}
-        {{!-- {{#if user.isAdmin}}
-        <li><a href="/admin">Admin</a></li>
-        {{/if}} --}}
         <li>
           <form action="/logout" method="post">
             <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Déconnexion</button>
