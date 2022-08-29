@@ -19,7 +19,7 @@ app.use(morgan('dev'))
 // const { isAdmin } = require('./middleware');
 
 // Router
-// routeur get ramene les info sur les cards/
+// routeur get ramene les infos sur les cards/
 router.get('/', async (req, res) => {
     const data = await db.query(`SELECT * FROM permis`)
 
@@ -231,7 +231,7 @@ router.get('/forminscription', function (req, res) {
 
 router.post('/contact', async function (req, res) {
     console.log("contact", req.body)
-
+//  Nodemailer
     const infomail = await transporter.sendMail({
 
         to: MAIL_USER,
@@ -246,7 +246,7 @@ router.post('/contact', async function (req, res) {
 
     res.redirect('/')
 })
-
+// nodemailer fin
 router.get('/pageId', function (req, res) {
     res.render('pageId')
 })
@@ -267,6 +267,5 @@ router.get('/admin', async (req, res) => {
     }
 
 })
-
 
 module.exports = router

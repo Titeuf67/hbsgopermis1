@@ -1,3 +1,4 @@
+# hbsgopermis1
 Note:
 
 OBJ vs Array
@@ -12,4 +13,6 @@ Res:: https://expressjs.com/fr/api.html#res
 // .render() renvoie du html
 // .end() met fin à la req
 // .json renvoie une response au format json
-# hbsgopermis1
+
+<!-- Commande MySQL -->
+
