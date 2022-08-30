@@ -10,11 +10,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/">Home</a>
+          <a class="nav-link active" aria-current="page" href="/">Retour au site</a>
         </li>
         <!-- liens centraux -->
       </ul>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+      {{!-- Condition user admin --}}
+      {{!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         {{#if user.isAdmin}}
         <li class="nav-item mx-2">
           <a class="nav-link" href="/pageId">Auto</a>
@@ -30,7 +32,8 @@
         </li>
         {{else}}
         {{/if}}
-      </ul>
+      </ul> --}}
+
       <!-- boutons de droite -->
       <div class="d-flex list-unstyled" role="search">
 

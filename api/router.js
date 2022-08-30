@@ -5,7 +5,7 @@ const db = require('./config/db')
 const morgan = require('morgan')
 const expressSession = require("express-session");
 const MySQLStore = require("express-mysql-session")(expressSession);
-const { setSession } = require("./utils/setSession")
+
 // const { isAdmin } = require('./middleware');
 const app = express();
 require('dotenv').config()
@@ -13,7 +13,7 @@ const { MAIL_USER } = process.env
 const transporter = require('./config/nodemailer')
 
 const bcrypt = require('bcrypt');
-const bcrypt_salt = 10;
+// const bcrypt_salt = 10;
 app.use(morgan('dev'))
 // Import des middlewares
 // const { isAdmin } = require('./middleware');
@@ -121,7 +121,8 @@ router
 //  Router user
 
 router.put('/user/:id', async (req, res) => {
-    const { email, username, password } = req.body;
+    const { email, username, password,
+    } = req.body;
     const { id } = req.params;
 
     if (email) await db.query(`UPDATE user set email = "${email}" WHERE id = ${id};`)
@@ -130,6 +131,20 @@ router.put('/user/:id', async (req, res) => {
 
     res.redirect('/admin')
 })
+
+router.put('/dbUsers', async (req, res) => {
+    const { isAdmin, isVerified, isBan
+    } = req.body;
+    const { id } = req.params;
+    if (isAdmin) await db.query(`UPDATE user set isAdmin = "${isAdmin}" WHERE id = ${id};`)
+    if (isVerified) await db.query(`UPDATE user set isVerified = "${isVerified}" WHERE id = ${id};`)
+    if (isBan) await db.query(`UPDATE user set isBann = "${isBan}" WHERE id = ${id};`)
+
+    res.redirect('/admin')
+})
+
+
+
 router.delete('/user/:id', async (req, res) => {
     const { id } = req.params;
 
@@ -213,9 +228,9 @@ router.post('/logout', (req, res) => {
 // ----------------------SEPARATE----------------------------------//
 // ----------------------------------------------------------------//
 
-
-
-
+/*
+ * SEPARATE
+ * ******** */
 
 router.get('/inscription', function (req, res) {
     res.render('inscription')
@@ -231,12 +246,14 @@ router.get('/forminscription', function (req, res) {
 
 router.post('/contact', async function (req, res) {
     console.log("contact", req.body)
-//  Nodemailer
+
+    //  Nodemailer
+    //*****************/
     const infomail = await transporter.sendMail({
 
         to: MAIL_USER,
-        
-        html:  `<h3>sujet :${req.body.sujet}</h3>       
+
+        html: `<h3>sujet :${req.body.sujet}</h3>       
                 <h3>expediteur : ${req.body.email}</h3>
                 <h3> ${req.body.message}</h3>`
     });

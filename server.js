@@ -16,7 +16,7 @@ require('dotenv').config()
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, PORT_NODE } = process.env;
 // console.log('process', process.env)
 
-const { inc, upper } = require('./helpers')
+const { inc, upper, checkBooleanOutputColor } = require('./helpers')
 
 // Config Handlebars
 app.engine('.hbs', engine({
@@ -25,7 +25,7 @@ app.engine('.hbs', engine({
     adminLayout: "adminLayout",
 
     helpers: {
-        inc,upper
+        inc,upper, checkBooleanOutputColor
     }
 }));
 

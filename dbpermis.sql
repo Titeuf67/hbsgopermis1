@@ -88,4 +88,4 @@ INSERT INTO permis (name, description) VALUES ("Permis C", "Ma super description
 
 -- User
 -- password 123456
-INSERT INTO user (email, username, password) VALUES ( "christian.fillette@gmail.com", "titeuf", "$2b$10$wVDCS1rhJLzjXwX.K9drF.CCz0UeU8k/EHv2TG06deCs0tmGLUfcW");
+INSERT INTO user (email, username, password, isAdmin) VALUES ( "christian.fillette@gmail.com", "titeuf", "$2b$10$wVDCS1rhJLzjXwX.K9drF.CCz0UeU8k/EHv2TG06deCs0tmGLUfcW", 1);
