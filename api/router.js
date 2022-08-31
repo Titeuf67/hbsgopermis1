@@ -92,8 +92,6 @@ router
     })
 
 
-
-
     // editer
     .put('/permis/:id', async (req, res) => {
         const { name, description, image } = req.body;
@@ -121,28 +119,22 @@ router
 //  Router user
 
 router.put('/user/:id', async (req, res) => {
-    const { email, username, password,
-    } = req.body;
+    console.log('req.body', req.body)
+    const { email, username, password,isAdmin,isVerified,isBan } = req.body;
     const { id } = req.params;
 
     if (email) await db.query(`UPDATE user set email = "${email}" WHERE id = ${id};`)
     if (username) await db.query(`UPDATE user set username = "${username}" WHERE id = ${id};`)
     if (password) await db.query(`UPDATE user set password = "${password}" WHERE id = ${id};`)
+    
+    // Peut importe la valeur de isX la condition ternaire nous permet d'ajuster la valeur enregistrer dans la DB
+    // condition ternaire = (condition) ? QuandLaConditionEstTrue : QuandLaConditionEstFalse 
+    await db.query(`UPDATE user set isAdmin = "${isAdmin === 'on' ? 1 : 0}" WHERE id = ${id};`)
+    await db.query(`UPDATE user set isVerified = "${isVerified === 'on' ? 1 : 0}" WHERE id = ${id};`)
+    await db.query(`UPDATE user set isBan = "${isBan === 'on' ? 1 : 0}" WHERE id = ${id};`)
 
     res.redirect('/admin')
 })
-
-router.put('/dbUsers', async (req, res) => {
-    const { isAdmin, isVerified, isBan
-    } = req.body;
-    const { id } = req.params;
-    if (isAdmin) await db.query(`UPDATE user set isAdmin = "${isAdmin}" WHERE id = ${id};`)
-    if (isVerified) await db.query(`UPDATE user set isVerified = "${isVerified}" WHERE id = ${id};`)
-    if (isBan) await db.query(`UPDATE user set isBann = "${isBan}" WHERE id = ${id};`)
-
-    res.redirect('/admin')
-})
-
 
 
 router.delete('/user/:id', async (req, res) => {
