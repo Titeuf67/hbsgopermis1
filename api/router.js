@@ -5,8 +5,14 @@ const db = require('./config/db')
 const morgan = require('morgan')
 const expressSession = require("express-session");
 const MySQLStore = require("express-mysql-session")(expressSession);
+const upload = require('./config/multer');
 
-// const { isAdmin } = require('./middleware');
+// Import des middlewares
+
+// const { isAdmin, isBan } = require('./config/midleware');
+// const { isVerified } = require('./middleware');
+
+
 const app = express();
 require('dotenv').config()
 const { MAIL_USER } = process.env
@@ -15,8 +21,7 @@ const transporter = require('./config/nodemailer')
 const bcrypt = require('bcrypt');
 // const bcrypt_salt = 10;
 app.use(morgan('dev'))
-// Import des middlewares
-// const { isAdmin } = require('./middleware');
+
 
 // Router
 // routeur get ramene les infos sur les cards/
@@ -37,8 +42,8 @@ router.get('/', async (req, res) => {
 
 
 // crud table permis
-router
-    .get('/permis', async (req, res) => {
+
+  router.get('/permis', async (req, res) => {
         const { id } = req.params
         const data = await db.query(`SELECT * FROM permis WHERE id = ${id}`)
 
@@ -52,7 +57,10 @@ router
     })
 
     // create
-    .post('/permis', (req, res) => {
+
+db.query(`SELECT * FROM image INNER JOIN permis WHERE image_id = fk_permis_image`)
+
+    router.post('/permis', (req, res) => {
         console.log('post:permis', req.body)
         const { name, description, image } = req.body;
 
@@ -104,7 +112,7 @@ router
         res.redirect('/admin')
     })
 
-    // suprimer
+    // supprimer
     .delete('/permis/:id', async (req, res) => {
         const { id } = req.params;
 
@@ -199,6 +207,7 @@ router.post('/connexion', (req, res) => {
                     }
                 })
             }
+            
             else return res.render('home')
 
         });

@@ -14,7 +14,7 @@
                         <h5 class="modal-title" id="exampleModalLabel">Create</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="/permis" method="post" class="modal-body">
+                    <form action="/permis" method="post" class="modal-body" enctype="multipart/form-data">
                         <label for="exampleFormControlInput1" class="form-label">Titre</label>
                         <input type="name" class="form-control" name="name" id="name">
 
@@ -22,7 +22,7 @@
                         <input type="description" class="form-control" name="description" id="description">
 
                         <label for="exampleFormControlInput1" class="form-label">image</label>
-                        <input type="imagep" class="form-control" name="image" id="image">
+                        <input type="file" class="form-control" name="image" id="image">
                         <div class="modal-footer"></div>
                         <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Go ==></button>
                     </form>
@@ -74,7 +74,7 @@
                         </div>
                         <div class="modal-body">
                             {{!-- editer --}}
-                            <form action="/permis/{{this.id}}?_method=PUT" method="post">
+                            <form action="/permis/{{this.id}}?_method=PUT" method="post"enctype="multipart/form-data">
                                 <div class="col">
                                     <label for="name">Name</label>
                                     <input type="text" id="name" name="name" value="{{ this.name }}">
@@ -86,7 +86,7 @@
                                 </div>
                                 <div class="col">
                                     <label for="image">Image</label>
-                                    <input type="text" id="image" name="image"
+                                    <input type="file" id="image" name="image"
                                         value="{{ this.image }}">
                                 </div>
                                 <button type="submit">Editer</button>
